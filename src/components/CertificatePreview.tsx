@@ -87,19 +87,17 @@ const CertificatePreview = ({ data, onClose }: CertificatePreviewProps) => {
             className="certificate-paper bg-white shadow-lg w-full max-w-4xl aspect-[1.414/1] relative"
             style={{ fontFamily: 'serif' }}
           >
-            {/* Curvas verdes laterais */}
+            {/* Design do certificado criado com CSS */}
             <div className="absolute top-0 left-0 w-1/4 h-full bg-emerald-600" style={{ borderTopRightRadius: '100%' }}></div>
             <div className="absolute bottom-0 right-0 w-1/4 h-full bg-emerald-600" style={{ borderTopLeftRadius: '100%' }}></div>
             
             {/* Logo e conteúdo do certificado */}
             <div className="relative z-10 p-8 flex flex-col items-center h-full">
-              {/* Logo e cabeçalho */}
+              {/* Logo criado com CSS */}
               <div className="flex items-center gap-4 mb-8">
-                <img 
-                  src="/lovable-uploads/2e3cfeef-28af-43b6-904b-72236c11a39f.png" 
-                  alt="Logo Engenheiros Sem Fronteiras" 
-                  className="w-60"
-                />
+                <div className="text-3xl font-bold text-emerald-700 border-b-2 border-emerald-600 pb-2">
+                  Engenheiros Sem Fronteiras
+                </div>
               </div>
               
               {/* Conteúdo do certificado */}

@@ -1,0 +1,3 @@
+
+# This would be the image file for the certificate background
+# Since we can't actually create an image file here, we'll just use CSS for the background in the component

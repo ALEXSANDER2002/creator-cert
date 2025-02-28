@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { X, Download, Printer } from "lucide-react";
 import { formatDate, getCertificateTypeLabel, CertificateData } from "@/utils/certificate";
 import { toast } from "sonner";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface CertificatePreviewProps {
   data: CertificateData;
@@ -30,12 +32,40 @@ const CertificatePreview = ({ data, onClose }: CertificatePreviewProps) => {
     }, 1500);
   };
 
-  const handleDownload = () => {
-    // In a real app, this would generate and download a PDF
-    toast.success("Preparando download...");
-    setTimeout(() => {
+  const handleDownload = async () => {
+    if (!certificateRef.current) {
+      toast.error("Erro ao gerar o certificado. Tente novamente.");
+      return;
+    }
+
+    try {
+      toast.success("Preparando download...");
+      
+      // Gerar o canvas a partir do certificado
+      const canvas = await html2canvas(certificateRef.current, {
+        scale: 2, // Melhor qualidade
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff"
+      });
+      
+      // Criar um novo documento PDF com dimensões baseadas no canvas
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      // Adicionar a imagem do canvas ao PDF
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      
+      // Salvar o PDF
+      pdf.save(`certificado-${data.name.toLowerCase().replace(/\s+/g, '-')}.pdf`);
+      
       toast.info("Certificado baixado com sucesso!");
-    }, 1500);
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      toast.error("Ocorreu um erro ao gerar o PDF. Tente novamente.");
+    }
   };
 
   const courseType = getCertificateTypeLabel(data.courseType);

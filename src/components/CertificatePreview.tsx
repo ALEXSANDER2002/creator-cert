@@ -86,27 +86,67 @@ const CertificatePreview = ({ data, onClose }: CertificatePreviewProps) => {
         <div className="p-6 overflow-auto">
           <div 
             ref={certificateRef} 
-            className="certificate-paper aspect-video w-full p-10 flex flex-col justify-between"
+            className="certificate-paper w-full aspect-[1.414/1] relative bg-white"
+            style={{ fontFamily: 'serif' }}
           >
-            <div className="border-b border-t border-r border-l border-gray-300 p-8 w-full h-full flex flex-col">
-              <div className="text-center mb-8">
-                <div className="text-sm uppercase tracking-wide text-gray-500 mb-3">Certificado de Conclusão</div>
-                <h1 className="text-3xl font-serif text-primary">{courseType}</h1>
+            {/* Curved green borders */}
+            <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-emerald-600 rounded-br-[100%]"></div>
+            <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-emerald-600 rounded-tl-[100%]"></div>
+            
+            {/* Logo and header */}
+            <div className="relative z-10 p-8 pt-12">
+              <div className="flex items-center justify-center mb-10">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 text-white">
+                        {/* Simplified globe icon placeholder */}
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" strokeWidth="2"/>
+                          <path d="M3 12H21" stroke="currentColor" strokeWidth="2"/>
+                          <path d="M12 3C14.5013 5.46452 15.9228 8.66283 16 12C15.9228 15.3372 14.5013 18.5355 12 21C9.49872 18.5355 8.07725 15.3372 8 12C8.07725 8.66283 9.49872 5.46452 12 3Z" stroke="currentColor" strokeWidth="2"/>
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="text-left">
+                      <h1 className="text-2xl font-bold text-black">Engenheiros</h1>
+                      <h1 className="text-2xl font-bold text-black">Sem Fronteiras</h1>
+                      <p className="text-emerald-600">Núcleo {data.courseType}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               
-              <div className="text-center flex-1 flex flex-col justify-center">
-                <p className="text-gray-600 mb-4">Certificamos que</p>
-                <p className="text-2xl font-serif mb-4 text-primary">{data.name}</p>
-                <p className="text-gray-600 mb-2">portador(a) do CPF {data.cpf}</p>
-                <p className="text-gray-600 mb-6">participou e concluiu com sucesso o</p>
-                <p className="text-xl font-medium mb-6 text-primary">{courseType}</p>
-                <p className="text-gray-600">com carga horária total de 40 horas.</p>
+              {/* Certificate content */}
+              <div className="text-center px-4">
+                <h2 className="text-xl font-bold mb-8">CERTIFICAMOS QUE</h2>
+                <h1 className="text-3xl font-bold text-emerald-600 mb-8">{data.name.toUpperCase()}</h1>
+                
+                <p className="text-base mb-6 max-w-3xl mx-auto text-left">
+                  inscrito sob a cédula de CPF <span className="font-bold">{data.cpf}</span>, participou da 
+                  Direção da Organização Não-Governamental <span className="font-bold">ENGENHEIROS SEM 
+                  FRONTEIRAS - {data.courseType.toUpperCase()}</span> como <span className="font-bold">ASSESSOR FINANCEIRO</span>, entre 
+                  <span className="font-bold"> agosto de 2023</span> a <span className="font-bold">janeiro de 2025</span>, contabilizando carga horária
+                  total de <span className="font-bold">480 horas</span>.
+                </p>
               </div>
-
-              <div className="text-center mt-8 pt-8 border-t border-gray-200">
-                <p className="text-gray-500 text-sm mb-2">Documento emitido em {formatDate(data.generatedDate)}</p>
-                <div className="w-48 h-12 mx-auto border-b border-gray-400 mb-2"></div>
-                <p className="text-gray-600 text-sm">Assinatura do Responsável</p>
+              
+              {/* Signatures */}
+              <div className="mt-16 flex justify-between px-12">
+                <div className="text-center">
+                  <div className="w-40 h-0.5 bg-emerald-600 mb-1"></div>
+                  <p className="text-emerald-600 font-medium">GUILHERME DA SILVA ARAUJO</p>
+                  <p className="text-xs italic">Diretor-geral do ENGENHEIROS<br />SEM FRONTEIRAS - {data.courseType.toUpperCase()}</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-40 h-16 flex items-end justify-center">
+                    <img src="/lovable-uploads/e39dfdc7-82ff-425d-8a9c-d28eb84df40c.png" alt="Assinatura" className="w-24 opacity-70" style={{ transform: 'translateY(10px)' }} />
+                  </div>
+                  <div className="w-40 h-0.5 bg-emerald-600 mb-1"></div>
+                  <p className="text-emerald-600 font-medium">PROF. DR. PEDRO AYALA CASTILLO</p>
+                  <p className="text-xs italic">Coordenador do ENGENHEIROS<br />SEM FRONTEIRAS - {data.courseType.toUpperCase()}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -126,7 +166,7 @@ const CertificatePreview = ({ data, onClose }: CertificatePreviewProps) => {
             </button>
             <button 
               onClick={handleDownload}
-              className="flex items-center gap-1 px-3 py-2 rounded bg-primary hover:bg-primary/90 transition-colors text-white"
+              className="flex items-center gap-1 px-3 py-2 rounded bg-emerald-600 hover:bg-emerald-700 transition-colors text-white"
             >
               <Download className="h-4 w-4" />
               <span>Download</span>
